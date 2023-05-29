@@ -12,6 +12,6 @@ const TimeWheel: React.FC<TimeWheelProps> = ({ dates }) => {
       ))}
     </ul>
   );
-}
+};
 
 export default TimeWheel;
