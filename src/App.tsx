@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import cronParser from 'cron-parser';
 import moment from 'moment-timezone';
 import {
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
   ScatterChart,
   Scatter,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
 } from 'recharts';
-
-type BarData = {
-  minute: number;
-  hour: number;
-  day: number;
-  dayLabel: string;
-  cronApplied: boolean;
-  time: string;
-};
 
 const DAYS = [
   'Sunday',
@@ -29,9 +22,32 @@ const DAYS = [
   'Saturday',
 ];
 
+const formatDay = (tick: number) => {
+  return DAYS[tick];
+};
+
+type ScatterData = {
+  x: number;
+  y: number;
+  z: number;
+  dayLabel: string;
+  time: string;
+};
+
+const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <p className="label">{`Time : ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const App = () => {
   const [cronExpression, setCronExpression] = useState<string>('* * * * *');
-  const [parsedData, setParsedData] = useState<BarData[]>([]);
+  const [parsedData, setParsedData] = useState<ScatterData[]>([]);
 
   const handleCronExpressionChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -41,7 +57,7 @@ const App = () => {
 
   const visualizeCron = () => {
     console.log('Start calculation');
-    const data: BarData[] = [];
+    const data: ScatterData[] = [];
 
     const options = {
       currentDate: moment().startOf('week').toDate(),
@@ -63,11 +79,10 @@ const App = () => {
             const hour = date.hour();
             const minute = date.minute();
             data.push({
-              minute,
-              day,
+              x: hour + minute / 60,
+              y: day,
+              z: 100,
               dayLabel: DAYS[day],
-              hour,
-              cronApplied: true,
               time: `JST: ${date.format('YYYY-MM-DD HH:mm')}`,
             });
           }
@@ -80,14 +95,6 @@ const App = () => {
         console.log('Error: ' + err.message);
       }
     }
-
-    // DEBUG:
-    data.map((entry, index) => {
-      if (entry.cronApplied) {
-        console.log('entry: ', entry);
-      }
-    });
-
     setParsedData(data);
     console.log('Finish calculation: ', data);
   };
@@ -96,33 +103,49 @@ const App = () => {
 
   return (
     <div>
-      <div>
-        <input
-          value={cronExpression}
-          onChange={handleCronExpressionChange}
-          placeholder="Enter cron expression (in JST)"
-          aria-label="Enter cron expression (in JST)"
-        />
-        <button onClick={visualizeCron}>Visualize</button>
+      <div style={{ margin: '20px' }}>
+        <h1>Cron Visualizer</h1>
       </div>
-      <CartesianGrid strokeDasharray="10 10" />
-      <XAxis dataKey="hour" type="number" ticks={hours} domain={[0, 23]} />
-      <YAxis dataKey="dayLabel" type="category" />
-      <Tooltip />
-      <ScatterChart
-        width={1200}
-        height={500}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="10 10" />
-        <XAxis dataKey="hour" type="number" ticks={hours} domain={[0, 23]} />
-        <YAxis dataKey="dayLabel" type="category" />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-        <Scatter
-          data={parsedData.filter((entry) => entry.cronApplied)}
-          fill="red"
-        />
-      </ScatterChart>
+      <div>
+        <div style={{ margin: '20px' }}>
+          <input
+            value={cronExpression}
+            onChange={handleCronExpressionChange}
+            placeholder="Enter cron expression (in JST)"
+            aria-label="Enter cron expression (in JST)"
+          />
+          <button onClick={visualizeCron}>Visualize</button>
+        </div>
+      </div>
+      <div style={{ margin: '20px' }}>
+        <ResponsiveContainer width="100%" height={400}>
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <CartesianGrid />
+            <XAxis
+              type="number"
+              dataKey="x"
+              name="time"
+              unit="h"
+              domain={[0, 24]}
+              ticks={hours}
+            />
+            <YAxis
+              type="number"
+              dataKey="y"
+              name="day"
+              unit=""
+              ticks={Array.from({ length: 7 }, (_, i) => i)}
+              domain={[0, 6]}
+              tickFormatter={formatDay}
+            />
+            <Tooltip
+              cursor={{ strokeDasharray: '3 3' }}
+              content={<CustomTooltip />}
+            />
+            <Scatter name="A school" data={parsedData} fill="red" />
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
