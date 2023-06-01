@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment-timezone';
 import cronParser from 'cron-parser';
-import { TimeFormatSelector } from './TimeFormatSelector';
-import { ScatterChartComponent } from './ScatterChartComponent';
+import { TimeFormatSelector } from './components/TimeFormatSelector';
+import { ScatterChartComponent } from './components/ScatterChartComponent';
 
 const DAYS = [
   'Sunday',
@@ -92,21 +92,27 @@ const App = () => {
   };
 
   return (
-    <div>
-      <div style={{ margin: '20px' }}>
-        <h1>Cron Visualizer</h1>
-      </div>
-      <div>
-        <div style={{ margin: '20px' }}>
+    <div className="p-10">
+      <h1 className="text-3xl mb-8 font-bold">Cron Visualizer</h1>
+      <div className="flex flex-col md:flex-row gap-4 items-center">
+        <div className="flex flex-col md:flex-row gap-4 items-center w-full md:w-auto">
           <input
             value={cronExpression}
             onChange={handleCronExpressionChange}
             placeholder="Enter cron expression"
             aria-label="Enter cron expression"
+            className="border p-2 rounded w-full"
           />
-          <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
-          <button onClick={visualizeCron}>Visualize</button>
+          <button
+            onClick={visualizeCron}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+          >
+            Visualize
+          </button>
         </div>
+      </div>
+      <div className="mt-2">
+        <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
       </div>
       <ScatterChartComponent parsedData={parsedData} />
     </div>

@@ -10,24 +10,26 @@ export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({
   onSelect,
 }) => {
   return (
-    <div>
-      <label>
+    <div className="flex gap-4">
+      <label className="inline-flex items-center">
         <input
           type="radio"
           value="JST"
           checked={selected === 'JST'}
           onChange={(e) => onSelect(e.target.value)}
+          className="form-radio text-blue-600"
         />
-        JST
+        <span className="ml-2">JST</span>
       </label>
-      <label>
+      <label className="inline-flex items-center">
         <input
           type="radio"
           value="UTCtoJST"
           checked={selected === 'UTCtoJST'}
           onChange={(e) => onSelect(e.target.value)}
+          className="form-radio text-blue-600"
         />
-        UTC to JST
+        <span className="ml-2">UTC to JST</span>
       </label>
     </div>
   );
