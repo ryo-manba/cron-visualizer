@@ -64,7 +64,7 @@ const App = () => {
           const obj = interval.next();
           if ('done' in obj) {
             const t = obj.value.toString();
-            const time = timeFormat === 'JST' ? convertUTCtoJST(t) : t;
+            const time = timeFormat === 'JST' ? moment(t) : convertUTCtoJST(t);
 
             const date = moment(time, 'YYYY-MM-DD HH:mm');
             const day = date.day();
