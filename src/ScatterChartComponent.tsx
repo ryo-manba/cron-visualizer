@@ -53,7 +53,7 @@ export const ScatterChartComponent = ({ parsedData }: Props) => {
   return (
     <div style={{ margin: '20px' }}>
       <ResponsiveContainer width="100%" height={400}>
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+        <ScatterChart margin={{ top: 20, right: 40, bottom: 20, left: 40 }}>
           <CartesianGrid />
           <XAxis
             type="number"
