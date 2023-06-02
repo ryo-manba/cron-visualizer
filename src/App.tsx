@@ -34,9 +34,11 @@ const convertUTCtoJST = (utcTime: string): string => {
 };
 
 const App = () => {
-  const [cronExpression, setCronExpression] = useState<string>('* * * * *');
+  const [cronExpression, setCronExpression] =
+    useState<string>('*/30 9-18 *  * 1-5');
   const [parsedData, setParsedData] = useState<ScatterData[]>([]);
   const [timeFormat, setTimeFormat] = useState('JST');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleCronExpressionChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -45,7 +47,6 @@ const App = () => {
   };
 
   const visualizeCron = () => {
-    console.log('Start calculation');
     const data: ScatterData[] = [];
 
     const options = {
@@ -82,33 +83,41 @@ const App = () => {
           break;
         }
       }
+      setErrorMessage('');
     } catch (err) {
       if (err instanceof Error) {
-        console.log('Error: ' + err.message);
+        setErrorMessage(err.message);
       }
     }
     setParsedData(data);
-    console.log('Finish calculation: ', data);
   };
 
   return (
     <div className="p-10">
       <h1 className="text-3xl mb-8 font-bold">Cron Visualizer</h1>
       <div className="flex flex-col md:flex-row gap-4 items-center">
-        <div className="flex flex-col md:flex-row gap-4 items-center w-full md:w-auto">
-          <input
-            value={cronExpression}
-            onChange={handleCronExpressionChange}
-            placeholder="Enter cron expression"
-            aria-label="Enter cron expression"
-            className="border p-2 rounded w-full"
-          />
-          <button
-            onClick={visualizeCron}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
-          >
-            Visualize
-          </button>
+        <div className="w-full md:w-auto">
+          <div className="flex flex-col gap-2 items-start">
+            <label>Cron Expression</label>
+            <div className="flex w-full">
+              <input
+                value={cronExpression}
+                onChange={handleCronExpressionChange}
+                placeholder="* * * * *"
+                aria-label="Enter cron expression"
+                className={`border p-2 rounded ${
+                  errorMessage ? 'border-red-500' : ''
+                } w-full md:w-auto`}
+              />
+              <button
+                onClick={visualizeCron}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
+              >
+                Visualize
+              </button>
+            </div>
+          </div>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </div>
       </div>
       <div className="mt-2">
