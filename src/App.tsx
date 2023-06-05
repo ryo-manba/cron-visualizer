@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Tooltip } from 'react-tooltip';
+import { FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment-timezone';
 import cronParser from 'cron-parser';
 import { TimeFormatSelector } from './components/TimeFormatSelector';
@@ -9,8 +11,8 @@ import { formatDay } from './helpers/formatDay';
 
 /**
  * UTCの日時をJSTの日時に変換する関数
- * @param {string} utcTime - UTC形式の時間 ('ddd MMM D YYYY HH:mm:ss')
- * @returns {string} - JST形式の時間 ('YYYY-MM-DD HH:mm')
+ * @param {string} utcTime - UTC形式の時間
+ * @returns {string} - JST形式の時間
  */
 const convertUTCtoJST = (utcTime: string): string => {
   const utcDate = moment.utc(utcTime, 'ddd MMM D YYYY HH:mm:ss');
@@ -85,7 +87,17 @@ const App = () => {
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="w-full md:w-auto">
               <div className="flex flex-col gap-2 items-start">
-                <label>Cron Expression</label>
+                <label className="flex items-center">
+                  Cron Expression
+                  <a
+                    data-tooltip-id="my-tooltip"
+                    data-tooltip-content="A short interval may cause freezing."
+                    className="ml-1 cursor-pointer"
+                  >
+                    <FaInfoCircle className="info-icon" />
+                  </a>
+                  <Tooltip id="my-tooltip" />
+                </label>
                 <div className="flex w-full">
                   <input
                     value={cronExpression}
