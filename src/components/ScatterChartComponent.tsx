@@ -9,27 +9,8 @@ import {
   ResponsiveContainer,
   TooltipProps,
 } from 'recharts';
-const DAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-
-type ScatterData = {
-  x: number;
-  y: number;
-  z: number;
-  dayLabel: string;
-  time: string;
-};
-
-const formatDay = (tick: number) => {
-  return DAYS[tick];
-};
+import { ScatterData } from '../types/ScatterData';
+import { formatDay } from '../helpers/formatDay';
 
 const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
   if (active && payload && payload.length) {
@@ -51,7 +32,7 @@ export const ScatterChartComponent = ({ parsedData }: Props) => {
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
   return (
-    <div style={{ margin: '20px' }}>
+    <div className="m-5">
       <ResponsiveContainer width="100%" height={400}>
         <ScatterChart margin={{ top: 20, right: 40, bottom: 20, left: 40 }}>
           <CartesianGrid />

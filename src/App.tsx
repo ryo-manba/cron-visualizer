@@ -4,24 +4,8 @@ import cronParser from 'cron-parser';
 import { TimeFormatSelector } from './components/TimeFormatSelector';
 import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
-
-const DAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-
-type ScatterData = {
-  x: number;
-  y: number;
-  z: number;
-  dayLabel: string;
-  time: string;
-};
+import type { ScatterData } from './types/ScatterData';
+import { formatDay } from './helpers/formatDay';
 
 /**
  * UTCの日時をJSTの日時に変換する関数
@@ -76,7 +60,7 @@ const App = () => {
               x: hour + minute / 60,
               y: day,
               z: 100,
-              dayLabel: DAYS[day],
+              dayLabel: formatDay(day),
               time: `JST: ${date.format('YYYY-MM-DD HH:mm')}`,
             });
           }
