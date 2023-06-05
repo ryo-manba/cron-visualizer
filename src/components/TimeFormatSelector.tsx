@@ -1,8 +1,9 @@
 import React from 'react';
+import { TimeFormat } from '../types/TimeFormat';
 
 type TimeFormatSelectorProps = {
-  selected: string;
-  onSelect: (value: string) => void;
+  selected: TimeFormat;
+  onSelect: (value: TimeFormat) => void;
 };
 
 export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({
@@ -14,9 +15,9 @@ export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({
       <label className="inline-flex items-center">
         <input
           type="radio"
-          value="JST"
-          checked={selected === 'JST'}
-          onChange={(e) => onSelect(e.target.value)}
+          value={TimeFormat.JST}
+          checked={selected === TimeFormat.JST}
+          onChange={(e) => onSelect(e.target.value as TimeFormat)}
           className="form-radio text-blue-600"
         />
         <span className="ml-2">JST</span>
@@ -24,9 +25,9 @@ export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({
       <label className="inline-flex items-center">
         <input
           type="radio"
-          value="UTCtoJST"
-          checked={selected === 'UTCtoJST'}
-          onChange={(e) => onSelect(e.target.value)}
+          value={TimeFormat.UTC}
+          checked={selected === TimeFormat.UTC}
+          onChange={(e) => onSelect(e.target.value as TimeFormat)}
           className="form-radio text-blue-600"
         />
         <span className="ml-2">UTC to JST</span>

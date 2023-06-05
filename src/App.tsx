@@ -1,82 +1,38 @@
 import React, { useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { FaInfoCircle } from 'react-icons/fa';
-import moment from 'moment-timezone';
-import cronParser from 'cron-parser';
 import { TimeFormatSelector } from './components/TimeFormatSelector';
 import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
 import type { ScatterData } from './types/ScatterData';
-import { formatDay } from './helpers/formatDay';
-
-/**
- * UTCの日時をJSTの日時に変換する関数
- * @param {string} utcTime - UTC形式の時間
- * @returns {string} - JST形式の時間
- */
-const convertUTCtoJST = (utcTime: string): string => {
-  const utcDate = moment.utc(utcTime, 'ddd MMM D YYYY HH:mm:ss');
-  const jstDate = utcDate.clone().tz('Asia/Tokyo');
-  return jstDate.format('YYYY-MM-DD HH:mm');
-};
+import { TimeFormat } from './types/TimeFormat';
+import { generateScatterData } from './helpers/generateScatterData';
 
 const App = () => {
   const [cronExpression, setCronExpression] =
     useState<string>('*/30 9-18 *  * 1-5');
   const [parsedData, setParsedData] = useState<ScatterData[]>([]);
-  const [timeFormat, setTimeFormat] = useState('JST');
+  const [timeFormat, setTimeFormat] = useState<TimeFormat>(TimeFormat.JST);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  // Handle change in the Cron expression input
   const handleCronExpressionChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setCronExpression(e.target.value);
   };
 
+  // Generate scatter chart data based on the Cron expression and time format
   const visualizeCron = () => {
-    const data: ScatterData[] = [];
-
-    const options = {
-      currentDate: moment().startOf('week').toDate(),
-      endDate: moment().endOf('week').toDate(),
-      iterator: true,
-      tz: 'Asia/Tokyo',
-    };
-
     try {
-      const interval = cronParser.parseExpression(cronExpression, options);
-
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        try {
-          const obj = interval.next();
-          if ('done' in obj) {
-            const t = obj.value.toString();
-            const time = timeFormat === 'JST' ? moment(t) : convertUTCtoJST(t);
-
-            const date = moment(time, 'YYYY-MM-DD HH:mm');
-            const day = date.day();
-            const hour = date.hour();
-            const minute = date.minute();
-            data.push({
-              x: hour + minute / 60,
-              y: day,
-              z: 100,
-              dayLabel: formatDay(day),
-              time: `JST: ${date.format('YYYY-MM-DD HH:mm')}`,
-            });
-          }
-        } catch (e) {
-          break;
-        }
-      }
+      const data = generateScatterData(cronExpression, timeFormat);
+      setParsedData(data);
       setErrorMessage('');
     } catch (err) {
       if (err instanceof Error) {
         setErrorMessage(err.message);
       }
     }
-    setParsedData(data);
   };
 
   return (

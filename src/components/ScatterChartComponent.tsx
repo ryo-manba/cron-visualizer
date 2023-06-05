@@ -10,7 +10,7 @@ import {
   TooltipProps,
 } from 'recharts';
 import { ScatterData } from '../types/ScatterData';
-import { formatDay } from '../helpers/formatDay';
+import { formatDay } from '../helpers/date';
 
 const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
   if (active && payload && payload.length) {
