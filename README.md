@@ -23,3 +23,7 @@ cron 式を可視化するためのアプリです。<br>
 - moment-timezone
 - cron-parser
 - recharts
+
+## スクリーンショット
+
+<img width="1200" alt="Screenshot： Cron Visualizer app interface showing a sample cron schedule visualization" src="/public/screenshot.webp">
