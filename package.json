@@ -62,6 +62,7 @@
     "@jridgewell/sourcemap-codec": "1.4.15",
     "@rollup/plugin-terser": "0.4.3",
     "@types/jest": "27.5.2",
+    "@types/react-tooltip": "^4.2.4",
     "@types/testing-library__jest-dom": "5.14.6",
     "@typescript-eslint/eslint-plugin": "5.59.8",
     "@typescript-eslint/parser": "5.59.8",
