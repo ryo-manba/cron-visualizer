@@ -1,6 +1,6 @@
 # cron-visualizer
 
-Translations: [English](README.md) [日本語 (Japanese)](docs/README-ja.md)
+Translations: [English](/README.md) [日本語 (Japanese)](docs/README-ja.md)
 
 This is an application for visualizing cron expressions.<br>
 You can enter any cron expression and visually check when it will execute on a weekly calendar.
