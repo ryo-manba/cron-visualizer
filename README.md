@@ -1,29 +1,31 @@
 # cron-visualizer
 
-cron 式を可視化するためのアプリです。<br>
-任意の cron 式を入力し、それが週間のカレンダー上でどの時間に実行されるかを視覚的に確認することができます。
+Translations: [English](README.md) [日本語 (Japanese)](docs/README-ja.md)
 
-## 機能
+This is an application for visualizing cron expressions.<br>
+You can enter any cron expression and visually check when it will execute on a weekly calendar.
 
-- cron 式の入力と可視化
-- JST と UTC のタイムフォーマットの切り替え
-- 週間カレンダー上での cron 実行時間の表示
+## Features
 
-## 使用方法
+- Input and visualization of cron expressions
+- Switching between JST and UTC time formats
+- Display of cron execution times on a weekly calendar
 
-- cron 式の入力欄に任意の cron 式を入力します。例えば、`* * * * *` は毎分実行を意味します。
-- JST と UTC のタイムフォーマットを切り替えます。デフォルトは JST です。
-- "Visualize"ボタンをクリックして、cron 式の可視化を実行します。
-- カレンダー上で cron 式の実行時間が表示されます。赤丸が表示された箇所が実行される時間です。
+## How to Use
 
-## 技術スタック
+- Enter any cron expression into the cron expression input field. For example, \* \* \* \* \* means execute every minute.
+- Switch between JST and UTC time formats. The default is JST.
+- Click the "Visualize" button to execute the visualization of the cron expression.
+- The execution times of the cron expression will be displayed on the calendar. The spots marked with a red circle are the execution times.
+
+## Technology Stack
 
 - React
 - TypeScript
 - moment-timezone
 - cron-parser
-- recharts
+- Recharts
 
-## スクリーンショット
+## Screenshots
 
-<img width="1200" alt="Screenshot： Cron Visualizer app interface showing a sample cron schedule visualization" src="/public/screenshot.webp">
+<img width="1200" alt="Screenshot: Cron Visualizer app interface showing a sample cron schedule visualization" src="/public/screenshot.webp">
