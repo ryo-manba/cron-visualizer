@@ -1,6 +1,6 @@
 # cron-visualizer
 
-Translations: [English](README.md) [日本語 (Japanese)](docs/README-ja.md)
+Translations: [English](/README.md) [日本語 (Japanese)](docs/README-ja.md)
 
 cron 式を可視化するためのアプリです。<br>
 任意の cron 式を入力し、それが週間のカレンダー上でどの時間に実行されるかを視覚的に確認することができます。
