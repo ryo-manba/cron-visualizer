@@ -47,7 +47,7 @@ export const ScatterChartComponent = ({ parsedData }: Props) => {
             tickFormatter={formatDay}
           />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
-          <Scatter name="A school" data={parsedData} fill="red" />
+          <Scatter data={parsedData} fill="red" />
         </ScatterChart>
       </ResponsiveContainer>
     </div>

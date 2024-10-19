@@ -22,6 +22,14 @@ export const generateScatterData = (cronExpression: string, timeFormat: TimeForm
 
   const interval = cronParser.parseExpression(cronExpression, options);
 
+  const { fields } = interval;
+  const totalCombinations = fields.second.length * fields.minute.length * fields.hour.length * fields.dayOfWeek.length;
+  const MAX_COMBINATIONS = 1000;
+  // This prevents excessive data points that could cause the browser to freeze
+  if (totalCombinations > MAX_COMBINATIONS) {
+    throw new Error('Too many data points. Please shorten the time period.');
+  }
+
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
