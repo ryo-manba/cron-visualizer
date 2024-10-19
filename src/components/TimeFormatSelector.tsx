@@ -6,10 +6,7 @@ type TimeFormatSelectorProps = {
   onSelect: (value: TimeFormat) => void;
 };
 
-export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({
-  selected,
-  onSelect,
-}) => {
+export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({ selected, onSelect }) => {
   return (
     <div className="flex gap-4">
       <label className="inline-flex items-center">

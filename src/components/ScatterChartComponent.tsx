@@ -36,14 +36,7 @@ export const ScatterChartComponent = ({ parsedData }: Props) => {
       <ResponsiveContainer width="100%" height={400}>
         <ScatterChart margin={{ top: 20, right: 40, bottom: 20, left: 40 }}>
           <CartesianGrid />
-          <XAxis
-            type="number"
-            dataKey="x"
-            name="time"
-            unit="h"
-            domain={[0, 24]}
-            ticks={hours}
-          />
+          <XAxis type="number" dataKey="x" name="time" unit="h" domain={[0, 24]} ticks={hours} />
           <YAxis
             type="number"
             dataKey="y"
@@ -53,10 +46,7 @@ export const ScatterChartComponent = ({ parsedData }: Props) => {
             domain={[0, 6]}
             tickFormatter={formatDay}
           />
-          <Tooltip
-            cursor={{ strokeDasharray: '3 3' }}
-            content={<CustomTooltip />}
-          />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<CustomTooltip />} />
           <Scatter name="A school" data={parsedData} fill="red" />
         </ScatterChart>
       </ResponsiveContainer>

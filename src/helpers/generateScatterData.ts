@@ -10,10 +10,7 @@ import { TimeFormat } from '../types/TimeFormat';
  * @param {TimeFormat} timeFormat - Time format ("JST" or "UTC")
  * @returns {ScatterData[]} - Array of generated scatter chart data
  */
-export const generateScatterData = (
-  cronExpression: string,
-  timeFormat: TimeFormat,
-) => {
+export const generateScatterData = (cronExpression: string, timeFormat: TimeFormat) => {
   const data = [];
 
   const options = {
@@ -31,8 +28,7 @@ export const generateScatterData = (
       const obj = interval.next();
       if ('done' in obj) {
         const t = obj.value.toString();
-        const time =
-          timeFormat === TimeFormat.JST ? moment(t) : convertUTCtoJST(t);
+        const time = timeFormat === TimeFormat.JST ? moment(t) : convertUTCtoJST(t);
 
         const date = moment(time, 'YYYY-MM-DD HH:mm');
         const day = date.day();

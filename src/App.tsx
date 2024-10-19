@@ -9,16 +9,13 @@ import { TimeFormat } from './types/TimeFormat';
 import { generateScatterData } from './helpers/generateScatterData';
 
 const App = () => {
-  const [cronExpression, setCronExpression] =
-    useState<string>('*/30 9-18 *  * 1-5');
+  const [cronExpression, setCronExpression] = useState<string>('*/30 9-18 *  * 1-5');
   const [parsedData, setParsedData] = useState<ScatterData[]>([]);
   const [timeFormat, setTimeFormat] = useState<TimeFormat>(TimeFormat.JST);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Handle change in the Cron expression input
-  const handleCronExpressionChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleCronExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCronExpression(e.target.value);
   };
 
@@ -60,9 +57,7 @@ const App = () => {
                     onChange={handleCronExpressionChange}
                     placeholder="* * * * *"
                     aria-label="Enter cron expression"
-                    className={`border p-2 rounded ${
-                      errorMessage ? 'border-red-500' : ''
-                    } w-full md:w-auto`}
+                    className={`border p-2 rounded ${errorMessage ? 'border-red-500' : ''} w-full md:w-auto`}
                   />
                   <button
                     onClick={visualizeCron}
@@ -76,10 +71,7 @@ const App = () => {
             </div>
           </div>
           <div className="mt-2">
-            <TimeFormatSelector
-              selected={timeFormat}
-              onSelect={setTimeFormat}
-            />
+            <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
           </div>
           <ScatterChartComponent parsedData={parsedData} />
         </div>
