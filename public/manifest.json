@@ -1,6 +1,7 @@
 {
   "short_name": "Cron Visualizer",
-  "name": "Cron Visualizer",
+  "name": "Cron Visualizer - Weekly Calendar for Cron Expressions",
+  "description": "Visualize when your cron jobs will run on an interactive weekly calendar. Supports JST/UTC time zones.",
   "icons": [
     {
       "src": "favicon.ico",

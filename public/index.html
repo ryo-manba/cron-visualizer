@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -8,8 +8,11 @@
   
     <meta
       name="description"
-      content="Visualize cron expressions on a weekly calendar."
+      content="Free online cron expression visualizer. See when your cron jobs will run on an interactive weekly calendar. Supports JST/UTC time zones with instant preview mode."
     />
+    <meta name="keywords" content="cron, cron expression, cron visualizer, cron scheduler, cron job, crontab, cron syntax, JST, UTC, time zone, schedule visualizer" />
+    <meta name="author" content="ryo-manba" />
+    <meta name="robots" content="index, follow" />
   
     <!-- Open Graph meta tags -->
     <meta property="og:title" content="Cron Visualizer" />
@@ -20,15 +23,47 @@
     <meta property="og:image" content="https://cron-visualizer.vercel.app/screenshot.webp" />
   
     <!-- The og:description is same as the meta name description -->
-    <meta property="og:description" content="Visualize cron expressions on a weekly calendar." />
+    <meta property="og:description" content="Free online cron expression visualizer. See when your cron jobs will run on an interactive weekly calendar. Supports JST/UTC time zones with instant preview mode." />
     
     <meta property="og:site_name" content="Cron-Visualizer" />
     <meta property="og:locale" content="en_US" />
   
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cron Visualizer - Visualize Cron Expressions" />
+    <meta name="twitter:description" content="Free online cron expression visualizer. See when your cron jobs will run on an interactive weekly calendar." />
+    <meta name="twitter:image" content="https://cron-visualizer.vercel.app/screenshot.webp" />
+
+    <!-- Additional SEO meta tags -->
+    <link rel="canonical" href="https://cron-visualizer.vercel.app/" />
+    
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Cron Visualizer</title>
-  </head>  
+    <title>Cron Visualizer - Visualize Cron Expressions on Weekly Calendar</title>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Cron Visualizer",
+      "description": "Free online cron expression visualizer. See when your cron jobs will run on an interactive weekly calendar. Supports JST/UTC time zones with instant preview mode.",
+      "url": "https://cron-visualizer.vercel.app/",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "ryo-manba",
+        "url": "https://github.com/ryo-manba"
+      }
+    }
+    </script>
+  </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
