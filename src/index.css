@@ -2,3 +2,29 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Recharts dark mode styles */
+.dark .recharts-cartesian-axis-tick-value {
+  fill: white !important;
+}
+
+.dark .recharts-cartesian-grid line {
+  stroke: #4B5563 !important;
+}
+
+.dark .recharts-scatter-symbol {
+  fill: #EF4444 !important;
+}
+
+/* Light mode (default) */
+.recharts-cartesian-axis-tick-value {
+  fill: #374151;
+}
+
+.recharts-cartesian-grid line {
+  stroke: #E5E7EB;
+}
+
+.recharts-scatter-symbol {
+  fill: #DC2626;
+}
+

@@ -17,7 +17,7 @@ export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({ selected
           onChange={(e) => onSelect(e.target.value as TimeFormat)}
           className="w-5 h-5 text-blue-600 cursor-pointer"
         />
-        <span className="ml-2 text-lg">JST</span>
+        <span className="ml-2 text-lg text-gray-900 dark:text-gray-100">JST</span>
       </label>
       <label className="inline-flex items-center cursor-pointer">
         <input
@@ -27,7 +27,7 @@ export const TimeFormatSelector: React.FC<TimeFormatSelectorProps> = ({ selected
           onChange={(e) => onSelect(e.target.value as TimeFormat)}
           className="w-5 h-5 text-blue-600 cursor-pointer"
         />
-        <span className="ml-2 text-lg">UTC to JST</span>
+        <span className="ml-2 text-lg text-gray-900 dark:text-gray-100">UTC to JST</span>
       </label>
     </div>
   );

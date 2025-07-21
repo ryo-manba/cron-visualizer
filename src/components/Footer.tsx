@@ -10,27 +10,27 @@ export const Footer = () => {
           target="_blank"
           rel="noreferrer"
           aria-label="GitHub Repository"
-          className="text-gray-700 hover:text-gray-900"
+          className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
         >
           <FaGithub size={28} />
         </a>
-        <p className="text-sm text-gray-700">&copy; 2023 - 2025 ryo-manba</p>
+        <p className="text-sm text-gray-700 dark:text-gray-400">&copy; 2023 - 2025 ryo-manba</p>
       </div>
       <div className="flex items-center justify-center gap-4 text-sm">
         <a
           href="https://crontab.guru/"
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
         >
           Cron Expression Reference
         </a>
-        <span className="text-gray-400">|</span>
+        <span className="text-gray-400 dark:text-gray-600">|</span>
         <a
           href="https://github.com/ryo-manba/cron-visualizer/issues"
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 hover:text-blue-800 underline"
+          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline"
         >
           Report an Issue
         </a>
