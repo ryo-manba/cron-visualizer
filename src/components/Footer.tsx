@@ -17,18 +17,18 @@ export const Footer = () => {
         <p className="text-sm text-gray-700">&copy; 2023 - 2025 ryo-manba</p>
       </div>
       <div className="flex items-center justify-center gap-4 text-sm">
-        <a 
-          href="https://crontab.guru/" 
-          target="_blank" 
+        <a
+          href="https://crontab.guru/"
+          target="_blank"
           rel="noreferrer"
           className="text-blue-600 hover:text-blue-800 underline"
         >
           Cron Expression Reference
         </a>
         <span className="text-gray-400">|</span>
-        <a 
-          href="https://github.com/ryo-manba/cron-visualizer/issues" 
-          target="_blank" 
+        <a
+          href="https://github.com/ryo-manba/cron-visualizer/issues"
+          target="_blank"
           rel="noreferrer"
           className="text-blue-600 hover:text-blue-800 underline"
         >

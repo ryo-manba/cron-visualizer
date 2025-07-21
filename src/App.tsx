@@ -73,29 +73,28 @@ const App = () => {
     <>
       <div className="p-10 flex flex-col min-h-screen">
         <div className="flex-grow">
-          <header>
-            <h1 className="text-3xl mb-4 font-bold">Cron Visualizer</h1>
+          <header className="text-center mb-8">
+            <h1 className="text-4xl mb-4 font-bold">Cron Visualizer</h1>
+            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+              Visualize when your cron jobs will run on a weekly calendar.
+            </p>
           </header>
-          <p className="text-gray-600 mb-6">
-            Visualize when your cron jobs will run on a weekly calendar.
-            <br />
-            Enter a cron expression and click &quot;Visualize&quot; or enable &quot;Instant Apply&quot; for real-time
-            updates.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="w-full md:w-auto">
-              <div className="flex flex-col gap-2 items-start">
-                <label className="flex items-center">
-                  Cron Expression
-                  <a
-                    data-tooltip-id="my-tooltip"
-                    data-tooltip-content="A short interval may cause freezing."
-                    className="ml-1 cursor-pointer"
-                  >
-                    <FaInfoCircle className="info-icon" />
-                  </a>
-                  <Tooltip id="my-tooltip" />
-                </label>
+          <div className="flex flex-col items-center">
+            <div className="w-full max-w-2xl">
+              <div className="flex flex-col gap-4">
+                <div className="text-center">
+                  <label className="inline-flex items-center text-lg font-medium">
+                    Cron Expression
+                    <a
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content="A short interval may cause freezing."
+                      className="ml-1 cursor-pointer"
+                    >
+                      <FaInfoCircle className="text-gray-500" size={18} />
+                    </a>
+                    <Tooltip id="my-tooltip" />
+                  </label>
+                </div>
                 <div className="flex w-full gap-2">
                   <div className="relative flex-1">
                     <input
@@ -103,15 +102,15 @@ const App = () => {
                       onChange={handleCronExpressionChange}
                       placeholder="* * * * *"
                       aria-label="Enter cron expression"
-                      className={`border p-2 rounded pr-10 ${errorMessage ? 'border-red-500' : ''} w-full`}
+                      className={`border-2 p-4 text-xl font-mono text-center rounded-lg pr-12 ${errorMessage ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'} w-full transition-colors outline-none bg-gray-50`}
                     />
                     <button
                       onClick={handleCopy}
                       aria-label="Copy cron expression"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 p-1"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 p-2 rounded hover:bg-gray-100 transition-colors"
                       title={copySuccess ? 'Copied!' : 'Copy to clipboard'}
                     >
-                      <FaCopy size={16} />
+                      <FaCopy size={20} />
                     </button>
                     {copySuccess && (
                       <span className="absolute -top-8 right-0 text-sm text-green-600 bg-white px-2 py-1 rounded shadow">
@@ -119,26 +118,29 @@ const App = () => {
                       </span>
                     )}
                   </div>
-                  {!instantApply && (
-                    <button
-                      onClick={() => visualizeCron()}
-                      disabled={isProcessing}
-                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
-                    >
-                      {isProcessing ? 'Processing...' : 'Visualize'}
-                    </button>
-                  )}
+                  <button
+                    onClick={() => visualizeCron()}
+                    disabled={isProcessing || instantApply}
+                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-6 text-lg rounded-lg whitespace-nowrap transition-colors"
+                  >
+                    {isProcessing ? 'Processing...' : 'Visualize'}
+                  </button>
                 </div>
               </div>
-              {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
-              {isProcessing && instantApply && <p className="text-blue-500 mt-2 text-sm">Processing...</p>}
+              {errorMessage && <p className="text-red-500 mt-2 text-center">{errorMessage}</p>}
+              {isProcessing && instantApply && <p className="text-blue-500 mt-2 text-sm text-center">Processing...</p>}
+              
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
+                <div className="text-gray-400">|</div>
+                <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
+              </div>
             </div>
           </div>
-          <div className="mt-2 flex flex-col md:flex-row gap-4">
-            <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
-            <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
+          
+          <div className="mt-8">
+            <ScatterChartComponent parsedData={parsedData} />
           </div>
-          <ScatterChartComponent parsedData={parsedData} />
         </div>
         <Footer />
       </div>
