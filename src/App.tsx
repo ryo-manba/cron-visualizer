@@ -61,7 +61,9 @@ const App = () => {
     <>
       <div className="p-10 flex flex-col min-h-screen">
         <div className="flex-grow">
-          <h1 className="text-3xl mb-4 font-bold">Cron Visualizer</h1>
+          <header>
+            <h1 className="text-3xl mb-4 font-bold">Cron Visualizer</h1>
+          </header>
           <p className="text-gray-600 mb-6">
             Visualize when your cron jobs will run on a weekly calendar.
             <br />
