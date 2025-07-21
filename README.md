@@ -11,6 +11,7 @@ You can enter any cron expression and visually check when it will execute on a w
 - Switching between JST and UTC time formats
 - Display of cron execution times on a weekly calendar
 - Instant Apply mode for real-time visualization as you type
+- Dark mode support with system preference detection
 
 ## How to Use
 
@@ -30,4 +31,10 @@ You can enter any cron expression and visually check when it will execute on a w
 
 ## Screenshots
 
-<img width="1200" alt="Screenshot: Cron Visualizer app interface showing a sample cron schedule visualization" src="/public/screenshot.webp">
+### Light Mode
+
+<img width="1200" alt="Screenshot: Cron Visualizer app interface in light mode" src="/public/screenshot-light.png">
+
+### Dark Mode
+
+<img width="1200" alt="Screenshot: Cron Visualizer app interface in dark mode" src="/public/screenshot-dark.png">

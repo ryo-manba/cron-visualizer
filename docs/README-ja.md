@@ -11,6 +11,7 @@ cron 式を可視化するためのアプリです。<br>
 - JST と UTC のタイムフォーマットの切り替え
 - 週間カレンダー上での cron 実行時間の表示
 - 入力時に自動的に可視化を更新する Instant Apply モード
+- システム設定連動のダークモード対応
 
 ## 使用方法
 
@@ -30,4 +31,10 @@ cron 式を可視化するためのアプリです。<br>
 
 ## スクリーンショット
 
-<img width="1200" alt="Screenshot： Cron Visualizer app interface showing a sample cron schedule visualization" src="/public/screenshot.webp">
+### ライトモード
+
+<img width="1200" alt="スクリーンショット： Cron Visualizer ライトモード表示" src="/public/screenshot-light.png">
+
+### ダークモード
+
+<img width="1200" alt="スクリーンショット： Cron Visualizer ダークモード表示" src="/public/screenshot-dark.png">
