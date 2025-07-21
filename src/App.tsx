@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tooltip } from 'react-tooltip';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaCopy } from 'react-icons/fa';
 import { TimeFormatSelector } from './components/TimeFormatSelector';
 import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
@@ -17,6 +17,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [instantApply, setInstantApply] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [copySuccess, setCopySuccess] = useState<boolean>(false);
 
   // Debounce the cron expression to prevent excessive processing
   const debouncedCronExpression = useDebounce(cronExpression, 500);
@@ -50,6 +51,17 @@ const App = () => {
     }
   };
 
+  // Copy cron expression to clipboard
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(cronExpression);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   // Auto-apply changes when in instant apply mode with debouncing
   useEffect(() => {
     if (instantApply && debouncedCronExpression) {
@@ -67,7 +79,8 @@ const App = () => {
           <p className="text-gray-600 mb-6">
             Visualize when your cron jobs will run on a weekly calendar.
             <br />
-            Enter a cron expression and click &quot;Visualize&quot; or enable &quot;Instant Apply&quot; for real-time updates.
+            Enter a cron expression and click &quot;Visualize&quot; or enable &quot;Instant Apply&quot; for real-time
+            updates.
           </p>
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="w-full md:w-auto">
@@ -83,19 +96,34 @@ const App = () => {
                   </a>
                   <Tooltip id="my-tooltip" />
                 </label>
-                <div className="flex w-full">
-                  <input
-                    value={cronExpression}
-                    onChange={handleCronExpressionChange}
-                    placeholder="* * * * *"
-                    aria-label="Enter cron expression"
-                    className={`border p-2 rounded ${errorMessage ? 'border-red-500' : ''} w-full md:w-auto`}
-                  />
+                <div className="flex w-full gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      value={cronExpression}
+                      onChange={handleCronExpressionChange}
+                      placeholder="* * * * *"
+                      aria-label="Enter cron expression"
+                      className={`border p-2 rounded pr-10 ${errorMessage ? 'border-red-500' : ''} w-full`}
+                    />
+                    <button
+                      onClick={handleCopy}
+                      aria-label="Copy cron expression"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 p-1"
+                      title={copySuccess ? 'Copied!' : 'Copy to clipboard'}
+                    >
+                      <FaCopy size={16} />
+                    </button>
+                    {copySuccess && (
+                      <span className="absolute -top-8 right-0 text-sm text-green-600 bg-white px-2 py-1 rounded shadow">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
                   {!instantApply && (
                     <button
                       onClick={() => visualizeCron()}
                       disabled={isProcessing}
-                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
+                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
                     >
                       {isProcessing ? 'Processing...' : 'Visualize'}
                     </button>
