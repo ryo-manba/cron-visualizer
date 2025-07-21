@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { FaInfoCircle } from 'react-icons/fa';
 import { TimeFormatSelector } from './components/TimeFormatSelector';
 import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
+import { InstantApplyToggle } from './components/InstantApplyToggle';
 import type { ScatterData } from './types/ScatterData';
 import { TimeFormat } from './types/TimeFormat';
 import { generateScatterData } from './helpers/generateScatterData';
@@ -13,6 +14,7 @@ const App = () => {
   const [parsedData, setParsedData] = useState<ScatterData[]>([]);
   const [timeFormat, setTimeFormat] = useState<TimeFormat>(TimeFormat.JST);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [instantApply, setInstantApply] = useState<boolean>(false);
 
   // Handle change in the Cron expression input
   const handleCronExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +33,13 @@ const App = () => {
       }
     }
   };
+
+  // Auto-apply changes when in instant apply mode
+  useEffect(() => {
+    if (instantApply && cronExpression) {
+      visualizeCron();
+    }
+  }, [cronExpression, timeFormat, instantApply]);
 
   return (
     <>
@@ -59,19 +68,22 @@ const App = () => {
                     aria-label="Enter cron expression"
                     className={`border p-2 rounded ${errorMessage ? 'border-red-500' : ''} w-full md:w-auto`}
                   />
-                  <button
-                    onClick={visualizeCron}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
-                  >
-                    Visualize
-                  </button>
+                  {!instantApply && (
+                    <button
+                      onClick={visualizeCron}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
+                    >
+                      Visualize
+                    </button>
+                  )}
                 </div>
               </div>
               {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             </div>
           </div>
-          <div className="mt-2">
+          <div className="mt-2 flex flex-col md:flex-row gap-4">
             <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
+            <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
           </div>
           <ScatterChartComponent parsedData={parsedData} />
         </div>
