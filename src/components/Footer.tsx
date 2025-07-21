@@ -14,7 +14,7 @@ export const Footer = () => {
         >
           <FaGithub size={28} />
         </a>
-        <p className="text-sm text-gray-700">&copy; 2023 ryo-manba</p>
+        <p className="text-sm text-gray-700">&copy; 2023 - 2025 ryo-manba</p>
       </div>
     </footer>
   );
