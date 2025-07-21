@@ -5,6 +5,7 @@ import { TimeFormatSelector } from './components/TimeFormatSelector';
 import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
 import { InstantApplyToggle } from './components/InstantApplyToggle';
+import { useDebounce } from './hooks/useDebounce';
 import type { ScatterData } from './types/ScatterData';
 import { TimeFormat } from './types/TimeFormat';
 import { generateScatterData } from './helpers/generateScatterData';
@@ -15,6 +16,10 @@ const App = () => {
   const [timeFormat, setTimeFormat] = useState<TimeFormat>(TimeFormat.JST);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [instantApply, setInstantApply] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
+  // Debounce the cron expression to prevent excessive processing
+  const debouncedCronExpression = useDebounce(cronExpression, 500);
 
   // Handle change in the Cron expression input
   const handleCronExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,24 +27,35 @@ const App = () => {
   };
 
   // Generate scatter chart data based on the Cron expression and time format
-  const visualizeCron = () => {
+  const visualizeCron = (expression?: string) => {
+    const targetExpression = expression || cronExpression;
+    if (!targetExpression.trim()) {
+      setParsedData([]);
+      setErrorMessage('');
+      return;
+    }
+
+    setIsProcessing(true);
     try {
-      const data = generateScatterData(cronExpression, timeFormat);
+      const data = generateScatterData(targetExpression, timeFormat);
       setParsedData(data);
       setErrorMessage('');
     } catch (err) {
+      setParsedData([]);
       if (err instanceof Error) {
         setErrorMessage(err.message);
       }
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  // Auto-apply changes when in instant apply mode
+  // Auto-apply changes when in instant apply mode with debouncing
   useEffect(() => {
-    if (instantApply && cronExpression) {
-      visualizeCron();
+    if (instantApply && debouncedCronExpression) {
+      visualizeCron(debouncedCronExpression);
     }
-  }, [cronExpression, timeFormat, instantApply]);
+  }, [debouncedCronExpression, timeFormat, instantApply]);
 
   return (
     <>
@@ -70,15 +86,17 @@ const App = () => {
                   />
                   {!instantApply && (
                     <button
-                      onClick={visualizeCron}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
+                      onClick={() => visualizeCron()}
+                      disabled={isProcessing}
+                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 px-4 rounded w-full md:w-auto ml-2"
                     >
-                      Visualize
+                      {isProcessing ? 'Processing...' : 'Visualize'}
                     </button>
                   )}
                 </div>
               </div>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+              {isProcessing && instantApply && <p className="text-blue-500 mt-2 text-sm">Processing...</p>}
             </div>
           </div>
           <div className="mt-2 flex flex-col md:flex-row gap-4">
