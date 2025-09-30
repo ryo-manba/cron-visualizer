@@ -11,9 +11,11 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "pnpm build:wasm && react-app-rewired build",
+    "build:wasm": "cd cron-wasm && wasm-pack build --target bundler",
+    "test": "react-app-rewired test",
+    "test:wasm": "cd cron-wasm && cargo test",
     "eject": "react-scripts eject",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "format": "prettier --write '*/**/*.{js,ts,tsx}'"
@@ -46,6 +48,7 @@
     "@vercel/analytics": "^1.5.0",
     "autoprefixer": "10.4.14",
     "cron-parser": "4.8.1",
+    "cron-wasm": "link:cron-wasm/pkg",
     "moment-timezone": "0.5.43",
     "postcss": "8.4.24",
     "react": "18.2.0",
@@ -72,6 +75,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.2",
     "prettier": "2.8.8",
+    "react-app-rewired": "^2.2.1",
     "svgo": "3.0.2",
     "workbox-cacheable-response": "7.0.0"
   },

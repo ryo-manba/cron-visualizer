@@ -1,0 +1,28 @@
+[package]
+name = "cron-wasm"
+version = "0.1.0"
+authors = ["ryo-manba <76232929+ryo-manba@users.noreply.github.com>"]
+description = "A WebAssembly cron expression parser for visualizing schedules"
+license = "MIT"
+repository = "https://github.com/ryo-manba/cron-visualizer"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+cron = "0.12"
+chrono = "0.4"
+chrono-tz = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+console_error_panic_hook = "0.1"
+
+[dependencies.web-sys]
+version = "0.3"
+features = ["console"]
+
+[profile.release]
+opt-level = 3
+lto = true

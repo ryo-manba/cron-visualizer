@@ -24,7 +24,7 @@ export const generateScatterData = (cronExpression: string, timeFormat: TimeForm
 
   const { fields } = interval;
   const totalCombinations = fields.second.length * fields.minute.length * fields.hour.length * fields.dayOfWeek.length;
-  const MAX_COMBINATIONS = 1000;
+  const MAX_COMBINATIONS = 5000;
   // This prevents excessive data points that could cause the browser to freeze
   if (totalCombinations > MAX_COMBINATIONS) {
     throw new Error('Too many data points. Please shorten the time period.');

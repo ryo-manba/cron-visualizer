@@ -6,11 +6,13 @@ import { ScatterChartComponent } from './components/ScatterChartComponent';
 import { Footer } from './components/Footer';
 import { InstantApplyToggle } from './components/InstantApplyToggle';
 import { DarkModeToggle } from './components/DarkModeToggle';
+import { ExperimentalToggle } from './components/ExperimentalToggle';
 import { useDebounce } from './hooks/useDebounce';
 import { useDarkMode } from './hooks/useDarkMode';
 import type { ScatterData } from './types/ScatterData';
 import { TimeFormat } from './types/TimeFormat';
 import { generateScatterData } from './helpers/generateScatterData';
+import { generateScatterDataWasm, initWasm, isWasmReady } from './helpers/wasmLoader';
 
 const App = () => {
   const [cronExpression, setCronExpression] = useState<string>('*/30 9-18 *  * 1-5');
@@ -20,10 +22,22 @@ const App = () => {
   const [instantApply, setInstantApply] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
+  const [executionTime, setExecutionTime] = useState<number | null>(null);
+  const [isWasmEnabled, setIsWasmEnabled] = useState<boolean>(false);
+  const [isWasmLoaded, setIsWasmLoaded] = useState<boolean>(false);
   const { isDarkMode, toggleDarkMode, resetToSystemPreference, isUserPreference } = useDarkMode();
 
   // Debounce the cron expression to prevent excessive processing
   const debouncedCronExpression = useDebounce(cronExpression, 500);
+
+  // Initialize WASM module on mount
+  useEffect(() => {
+    initWasm().then(() => {
+      setIsWasmLoaded(isWasmReady());
+    }).catch(err => {
+      console.error('Failed to load WASM module:', err);
+    });
+  }, []);
 
   // Handle change in the Cron expression input
   const handleCronExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +45,7 @@ const App = () => {
   };
 
   // Generate scatter chart data based on the Cron expression and time format
-  const visualizeCron = (expression?: string) => {
+  const visualizeCron = async (expression?: string) => {
     const targetExpression = expression || cronExpression;
     if (!targetExpression.trim()) {
       setParsedData([]);
@@ -40,11 +54,23 @@ const App = () => {
     }
 
     setIsProcessing(true);
+    const startTime = performance.now();
     try {
-      const data = generateScatterData(targetExpression, timeFormat);
+      let data: ScatterData[];
+      if (isWasmEnabled && isWasmLoaded) {
+        // Use WASM version
+        data = await generateScatterDataWasm(targetExpression, timeFormat);
+      } else {
+        // Use standard JavaScript version
+        data = generateScatterData(targetExpression, timeFormat);
+      }
+      const endTime = performance.now();
+      const time = endTime - startTime;
+      setExecutionTime(time);
       setParsedData(data);
       setErrorMessage('');
     } catch (err) {
+      setExecutionTime(null);
       setParsedData([]);
       if (err instanceof Error) {
         setErrorMessage(err.message);
@@ -98,7 +124,7 @@ const App = () => {
                       <a
                         data-tooltip-id="my-tooltip"
                         data-tooltip-content="A short interval may cause freezing."
-                        className="ml-1 cursor-pointer"
+                        className="ml-1"
                       >
                         <FaInfoCircle className="text-gray-500 dark:text-gray-300" size={18} />
                       </a>
@@ -145,11 +171,27 @@ const App = () => {
                 {isProcessing && instantApply && (
                   <p className="text-blue-500 dark:text-blue-300 mt-2 text-sm text-center">Processing...</p>
                 )}
+                {executionTime !== null && parsedData.length > 0 && (
+                  <div className="mt-2 text-center">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Execution time: <span className="font-mono font-bold">{executionTime.toFixed(2)}ms</span>
+                      {' '}({parsedData.length} data points)
+                    </span>
+                  </div>
+                )}
 
-                <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
-                  <div className="text-gray-400 dark:text-gray-600">|</div>
-                  <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
+                <div className="mt-6 flex flex-col lg:flex-row gap-4 justify-center items-center">
+                  <div className="flex flex-col sm:flex-row gap-4 items-center">
+                    <TimeFormatSelector selected={timeFormat} onSelect={setTimeFormat} />
+                    <div className="hidden sm:block text-gray-400 dark:text-gray-600">|</div>
+                    <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
+                  </div>
+                  <div className="hidden lg:block text-gray-400 dark:text-gray-600">|</div>
+                  <ExperimentalToggle 
+                    isWasmEnabled={isWasmEnabled} 
+                    onToggle={setIsWasmEnabled} 
+                    isWasmReady={isWasmLoaded} 
+                  />
                 </div>
               </div>
             </div>
