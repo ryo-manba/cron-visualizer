@@ -1,0 +1,6 @@
+{
+  "framework": "create-react-app",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "bash scripts/vercel-build.sh",
+  "outputDirectory": "build"
+}
