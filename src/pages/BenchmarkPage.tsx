@@ -78,7 +78,7 @@ export const BenchmarkPage: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">JS vs Wasm Performance Benchmark</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-8">
-          Compare JavaScript and WebAssembly performance for cron expression parsing. Each test runs 100 iterations.
+          Compare JavaScript and WebAssembly performance for cron expression parsing.
         </p>
 
         <button
