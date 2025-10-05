@@ -5,5 +5,11 @@ module.exports = function override(config) {
     asyncWebAssembly: true,
   };
 
+  // Add rule for .wasm files
+  config.module.rules.push({
+    test: /\.wasm$/,
+    type: 'webassembly/async',
+  });
+
   return config;
 };
