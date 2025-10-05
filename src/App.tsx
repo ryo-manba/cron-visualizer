@@ -12,7 +12,7 @@ import { useDarkMode } from './hooks/useDarkMode';
 import type { ScatterData } from './types/ScatterData';
 import { TimeFormat } from './types/TimeFormat';
 import { generateScatterData } from './helpers/generateScatterData';
-import { generateScatterDataWasm, initWasm, isWasmReady } from './helpers/wasmLoader';
+import { generateScatterDataWasm } from './helpers/generateScatterDataWasm';
 
 const App = () => {
   const [cronExpression, setCronExpression] = useState<string>('*/30 9-18 *  * 1-5');
@@ -24,20 +24,10 @@ const App = () => {
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
   const [isWasmEnabled, setIsWasmEnabled] = useState<boolean>(false);
-  const [isWasmLoaded, setIsWasmLoaded] = useState<boolean>(false);
   const { isDarkMode, toggleDarkMode, resetToSystemPreference, isUserPreference } = useDarkMode();
 
   // Debounce the cron expression to prevent excessive processing
   const debouncedCronExpression = useDebounce(cronExpression, 500);
-
-  // Initialize WASM module on mount
-  useEffect(() => {
-    initWasm().then(() => {
-      setIsWasmLoaded(isWasmReady());
-    }).catch(err => {
-      console.error('Failed to load WASM module:', err);
-    });
-  }, []);
 
   // Handle change in the Cron expression input
   const handleCronExpressionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +47,9 @@ const App = () => {
     const startTime = performance.now();
     try {
       let data: ScatterData[];
-      if (isWasmEnabled && isWasmLoaded) {
+      if (isWasmEnabled) {
         // Use WASM version
-        data = await generateScatterDataWasm(targetExpression, timeFormat);
+        data = generateScatterDataWasm(targetExpression, timeFormat);
       } else {
         // Use standard JavaScript version
         data = generateScatterData(targetExpression, timeFormat);
@@ -187,10 +177,9 @@ const App = () => {
                     <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
                   </div>
                   <div className="hidden lg:block text-gray-400 dark:text-gray-600">|</div>
-                  <ExperimentalToggle 
-                    isWasmEnabled={isWasmEnabled} 
-                    onToggle={setIsWasmEnabled} 
-                    isWasmReady={isWasmLoaded} 
+                  <ExperimentalToggle
+                    isWasmEnabled={isWasmEnabled}
+                    onToggle={setIsWasmEnabled}
                   />
                 </div>
               </div>
