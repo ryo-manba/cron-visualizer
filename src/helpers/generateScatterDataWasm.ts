@@ -10,10 +10,7 @@ interface WasmScatterData {
   time: string;
 }
 
-export function generateScatterDataWasm(
-  cronExpression: string,
-  timeFormat: TimeFormat
-): ScatterData[] {
+export function generateScatterDataWasm(cronExpression: string, timeFormat: TimeFormat): ScatterData[] {
   const parser = new CronParser();
 
   try {
@@ -24,7 +21,7 @@ export function generateScatterDataWasm(
       y: item.y,
       z: item.z,
       dayLabel: item.day_label,
-      time: item.time
+      time: item.time,
     }));
   } catch (error: any) {
     // Convert WASM error to match JS error format

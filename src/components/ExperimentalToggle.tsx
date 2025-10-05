@@ -6,10 +6,7 @@ interface ExperimentalToggleProps {
   onToggle: (enabled: boolean) => void;
 }
 
-export const ExperimentalToggle: React.FC<ExperimentalToggleProps> = ({ 
-  isWasmEnabled, 
-  onToggle, 
-}) => {
+export const ExperimentalToggle: React.FC<ExperimentalToggleProps> = ({ isWasmEnabled, onToggle }) => {
   return (
     <div className="flex items-center gap-3">
       <span className="text-sm text-gray-600 dark:text-gray-400">Mode:</span>
@@ -31,13 +28,11 @@ export const ExperimentalToggle: React.FC<ExperimentalToggleProps> = ({
               ? 'bg-green-500 dark:bg-green-600 text-white'
               : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
           }`}
-          title='Experimental: High-performance mode'
+          title="Experimental: High-performance mode"
         >
           <FaRocket size={12} />
           WASM
-          <span className="text-xs ml-1">
-            (Experimental)
-          </span>
+          <span className="text-xs ml-1">(Experimental)</span>
         </button>
       </div>
     </div>

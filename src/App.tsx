@@ -164,8 +164,8 @@ const App = () => {
                   )}
                   {executionTime !== null && parsedData.length > 0 && (
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Execution time: <span className="font-mono font-bold">{executionTime.toFixed(2)}ms</span>
-                      {' '}({parsedData.length} data points)
+                      Execution time: <span className="font-mono font-bold">{executionTime.toFixed(2)}ms</span> (
+                      {parsedData.length} data points)
                     </span>
                   )}
                 </div>
@@ -177,10 +177,7 @@ const App = () => {
                     <InstantApplyToggle isEnabled={instantApply} onToggle={setInstantApply} />
                   </div>
                   <div className="hidden lg:block text-gray-400 dark:text-gray-600">|</div>
-                  <ExperimentalToggle
-                    isWasmEnabled={isWasmEnabled}
-                    onToggle={setIsWasmEnabled}
-                  />
+                  <ExperimentalToggle isWasmEnabled={isWasmEnabled} onToggle={setIsWasmEnabled} />
                 </div>
               </div>
             </div>
