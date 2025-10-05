@@ -158,17 +158,17 @@ const App = () => {
                   </div>
                 </div>
                 {errorMessage && <p className="text-red-500 dark:text-red-400 mt-2 text-center">{errorMessage}</p>}
-                {isProcessing && instantApply && (
-                  <p className="text-blue-500 dark:text-blue-300 mt-2 text-sm text-center">Processing...</p>
-                )}
-                {executionTime !== null && parsedData.length > 0 && (
-                  <div className="mt-2 text-center">
+                <div className="mt-2 text-center h-6">
+                  {isProcessing && instantApply && (
+                    <p className="text-blue-500 dark:text-blue-300 text-sm">Processing...</p>
+                  )}
+                  {executionTime !== null && parsedData.length > 0 && (
                     <span className="text-sm text-gray-600 dark:text-gray-400">
                       Execution time: <span className="font-mono font-bold">{executionTime.toFixed(2)}ms</span>
                       {' '}({parsedData.length} data points)
                     </span>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <div className="mt-6 flex flex-col lg:flex-row gap-4 justify-center items-center">
                   <div className="flex flex-col sm:flex-row gap-4 items-center">
