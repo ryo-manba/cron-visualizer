@@ -18,6 +18,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm audit
       - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@cargo-audit
+      - run: cargo audit --file cron-wasm/Cargo.lock
       - run: pnpm test:wasm
       - run: bash scripts/vercel-build.sh
       - run: pnpm test
