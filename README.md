@@ -38,3 +38,30 @@ You can enter any cron expression and visually check when it will execute on a w
 ### Dark Mode
 
 <img width="1200" alt="Screenshot: Cron Visualizer app interface in dark mode" src="/public/screenshot-dark.png">
+
+## Development and verification
+
+Use Node.js 22.22.2 (or a newer Node.js 22 patch) and pnpm 11.1.1.
+Rust, the `wasm32-unknown-unknown` target, and wasm-pack 0.15.1 are required to build the experimental WebAssembly parser.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm build:wasm
+pnpm start
+```
+
+Vite serves the app at http://localhost:5173. Both normal JavaScript visualization and the experimental WebAssembly mode are supported. The WASM module loads on first use; a failed download can be retried.
+
+```sh
+pnpm typecheck
+pnpm test
+pnpm test:wasm
+pnpm lint
+pnpm audit
+pnpm build
+pnpm preview
+```
+
+The production output remains `build/`. Vercel uses `scripts/vercel-build.sh`, which prepares an isolated rustup toolchain including the `wasm32-unknown-unknown` target and builds the WASM module before the web app. This avoids relying on Vercel's preinstalled native-only Rust. CI checks dependencies, Rust tests, TypeScript, JavaScript tests, lint, and the production build.
+
+The previous Create React App / webpack toolchain has been replaced with Vite to remove vulnerable, unmaintained build dependencies. The minimatch override in `pnpm-workspace.yaml` addresses the remaining glob-parts denial-of-service advisory in the lint tooling.

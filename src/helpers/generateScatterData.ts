@@ -30,7 +30,6 @@ export const generateScatterData = (cronExpression: string, timeFormat: TimeForm
     throw new Error('Too many data points. Please shorten the time period.');
   }
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
       const obj = interval.next();
@@ -50,7 +49,7 @@ export const generateScatterData = (cronExpression: string, timeFormat: TimeForm
           time: `JST: ${date.format('YYYY-MM-DD HH:mm')}`,
         });
       }
-    } catch (e) {
+    } catch {
       break;
     }
   }

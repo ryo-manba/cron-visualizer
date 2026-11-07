@@ -49,7 +49,7 @@ const App = () => {
       let data: ScatterData[];
       if (isWasmEnabled) {
         // Use WASM version
-        data = generateScatterDataWasm(targetExpression, timeFormat);
+        data = await generateScatterDataWasm(targetExpression, timeFormat);
       } else {
         // Use standard JavaScript version
         data = generateScatterData(targetExpression, timeFormat);

@@ -10,21 +10,17 @@
     "cron visualizer"
   ],
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "start": "react-app-rewired start",
-    "build": "pnpm build:wasm && react-app-rewired build",
-    "build:wasm": "cd cron-wasm && wasm-pack build --target bundler",
-    "test": "react-app-rewired test",
-    "test:wasm": "cd cron-wasm && cargo test",
-    "eject": "react-scripts eject",
-    "lint": "eslint '*/**/*.{js,ts,tsx}'",
-    "format": "prettier --write '*/**/*.{js,ts,tsx}'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "vite --host 127.0.0.1",
+    "dev": "vite --host 127.0.0.1",
+    "build": "pnpm build:wasm && pnpm build:web",
+    "build:web": "pnpm typecheck && vite build",
+    "build:wasm": "cd cron-wasm && wasm-pack build --target web --locked",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:wasm": "cd cron-wasm && cargo test --locked",
+    "lint": "eslint src",
+    "format": "prettier --write 'src/**/*.{js,ts,tsx}'"
   },
   "browserslist": {
     "production": [
@@ -39,52 +35,42 @@
     ]
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/react": "^18.3.27",
-    "@types/react-dom": "^18.3.7",
     "@vercel/analytics": "^1.6.1",
-    "autoprefixer": "^10.4.22",
     "cron-parser": "^4.9.0",
-    "cron-wasm": "link:cron-wasm/pkg",
     "moment-timezone": "^0.5.48",
-    "postcss": "^8.5.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^4.12.0",
-    "react-scripts": "^5.0.1",
     "react-tooltip": "^5.30.0",
     "recharts": "^2.15.4",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^4.9.5",
     "web-vitals": "2.1.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.5",
-    "@jridgewell/sourcemap-codec": "^1.5.5",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@types/jest": "^27.5.2",
+    "@eslint/js": "^9.39.4",
     "@types/node": "^22.19.2",
-    "@types/react-tooltip": "^4.2.4",
-    "@types/testing-library__jest-dom": "^5.14.9",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^8.10.2",
-    "eslint-plugin-prettier": "^4.2.5",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.2.1",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
-    "prettier": "^2.8.8",
-    "react-app-rewired": "^2.2.1",
-    "svgo": "^3.3.2",
-    "workbox-cacheable-response": "^7.4.0"
+    "globals": "^16.5.0",
+    "jsdom": "^30.0.1",
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.3",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/jest-dom": "^7.0.1"
   },
   "engines": {
-    "node": "22.20.0",
-    "pnpm": ">=8.6.0"
+    "node": "22.x"
   },
-  "packageManager": "pnpm@8.6.0",
+  "packageManager": "pnpm@11.1.1",
   "volta": {
-    "node": "22.20.0"
+    "node": "22.22.2"
   }
 }

@@ -1,4 +1,7 @@
-import { CronParser } from 'cron-wasm';
+import init, { CronParser } from '../../cron-wasm/pkg/cron_wasm';
+import wasmUrl from '../../cron-wasm/pkg/cron_wasm_bg.wasm?url';
+
+let initialization: Promise<unknown> | undefined;
 import type { ScatterData } from '../types/ScatterData';
 import { TimeFormat } from '../types/TimeFormat';
 
@@ -10,7 +13,12 @@ interface WasmScatterData {
   time: string;
 }
 
-export function generateScatterDataWasm(cronExpression: string, timeFormat: TimeFormat): ScatterData[] {
+export async function generateScatterDataWasm(cronExpression: string, timeFormat: TimeFormat): Promise<ScatterData[]> {
+  initialization ??= init({ module_or_path: wasmUrl }).catch((error) => {
+    initialization = undefined;
+    throw error;
+  });
+  await initialization;
   const parser = new CronParser();
 
   try {
@@ -23,9 +31,9 @@ export function generateScatterDataWasm(cronExpression: string, timeFormat: Time
       dayLabel: item.day_label,
       time: item.time,
     }));
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Convert WASM error to match JS error format
-    const errorMessage = error.toString().replace('Invalid cron expression: ', '');
+    const errorMessage = String(error).replace('Invalid cron expression: ', '');
     throw new Error(errorMessage);
   } finally {
     // Clean up parser instance
