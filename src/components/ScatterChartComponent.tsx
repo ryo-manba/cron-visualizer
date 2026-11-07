@@ -12,7 +12,7 @@ import {
 import { ScatterData } from '../types/ScatterData';
 import { formatDay } from '../helpers/date';
 
-const CustomTooltip = ({ active, payload }: TooltipProps<any, any>) => {
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (

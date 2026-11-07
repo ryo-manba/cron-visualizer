@@ -1,5 +1,5 @@
 {
-  "framework": "create-react-app",
+  "framework": "vite",
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "bash scripts/vercel-build.sh",
   "outputDirectory": "build"

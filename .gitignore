@@ -2,3 +2,4 @@ node_modules
 memo.md
 build
 cron-wasm/target
+cron-wasm/pkg/
