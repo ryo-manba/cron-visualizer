@@ -62,6 +62,6 @@ pnpm build
 pnpm preview
 ```
 
-The production output remains `build/`. Vercel uses `scripts/vercel-build.sh`, which installs the Rust tools if absent and builds the WASM module before the web app. CI checks dependencies, Rust tests, TypeScript, JavaScript tests, lint, and the production build.
+The production output remains `build/`. Vercel uses `scripts/vercel-build.sh`, which prepares an isolated rustup toolchain including the `wasm32-unknown-unknown` target and builds the WASM module before the web app. This avoids relying on Vercel's preinstalled native-only Rust. CI checks dependencies, Rust tests, TypeScript, JavaScript tests, lint, and the production build.
 
 The previous Create React App / webpack toolchain has been replaced with Vite to remove vulnerable, unmaintained build dependencies. The minimatch override in `pnpm-workspace.yaml` addresses the remaining glob-parts denial-of-service advisory in the lint tooling.
